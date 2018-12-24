@@ -1,0 +1,8 @@
+[package]
+name = "salt-syntax-common"
+version = "0.1.0"
+authors = ["Eric McCorkle <eric@metricspace.net>"]
+
+[dependencies]
+langtools-common = { version = "*", git = "https://github.com/saltlang/langtools-common", branch = "devel" }
+
