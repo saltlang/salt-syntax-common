@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Eric McCorkle <eric@metricspace.net>"]
 
 [dependencies]
+enum-map = { version = "*" }
 num-rational = { version = "0.2.1" }
 langtools-common = { version = "*", git = "https://github.com/saltlang/langtools-common", branch = "devel" }
 

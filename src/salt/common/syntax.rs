@@ -1,3 +1,4 @@
+use enum_map::Enum;
 use langtools_common::langtools::common::position::BasicPosition;
 use langtools_common::langtools::common::symbol::Symbol;
 use num_rational::BigRational;
@@ -24,7 +25,7 @@ impl<'a> Fieldname<'a> {
 }
 
 /// Associativity.  This is used in syntax directives.
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
 pub enum Assoc {
     /// Left-associativity.
     Left,
@@ -207,7 +208,7 @@ impl<'a, N: Display> Debug for Prec<'a, N> {
 }
 
 /// Kinds of elements in the truth environment.
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
 pub enum TruthKind {
     /// Theorem, proven within the current truth environment.
     Theorem,
@@ -237,7 +238,7 @@ impl Debug for TruthKind {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
 pub enum ScopeKind {
     Interface,
     Module,
@@ -246,7 +247,7 @@ pub enum ScopeKind {
     Instance
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
 pub enum ContextKind {
     /// Static definitions.  These are relative only to the global
     /// context (meaning they can only access statically-defined
@@ -283,7 +284,7 @@ impl Debug for ContextKind {
 
 /// Kinds of abstractions.  This allows the same abstraction
 /// representation to be used for multiple purposes.
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
 pub enum AbstractionKind {
     /// A function abstraction.
     Lambda,
@@ -313,7 +314,7 @@ impl Debug for AbstractionKind {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
 pub enum Visibility {
     /// Completely hidden visibility.  This is used for
     /// compiler-generated definitions that should never be visible.
