@@ -1,3 +1,5 @@
+use core::hash::Hash;
+use core::hash::Hasher;
 use enum_map::Enum;
 use langtools_common::langtools::common::position::BasicPosition;
 use langtools_common::langtools::common::symbol::Symbol;
@@ -9,7 +11,7 @@ use std::fmt::Formatter;
 use std::fmt::Result;
 
 /// Distinguished type for field names.
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub struct Fieldname<'a>(Symbol<'a>);
 
 impl<'a> Fieldname<'a> {
@@ -25,7 +27,7 @@ impl<'a> Fieldname<'a> {
 }
 
 /// Associativity.  This is used in syntax directives.
-#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum Assoc {
     /// Left-associativity.
     Left,
@@ -57,7 +59,7 @@ impl Debug for Assoc {
 
 /// Fixity.  This is used for syntax directives to denote the fixity
 /// behavior of symbols.
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum Fixity {
     /// Prefix symbol.
     Prefix,
@@ -159,6 +161,19 @@ impl<'a, N: Debug> Debug for Level<'a, N> {
     }
 }
 
+impl<'a, N: Hash> Hash for Level<'a, N> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        match self {
+            Level::Name { name } => {
+                state.write_u8(0);
+                name.hash(state)
+            },
+            Level::Prefix { .. } => state.write_u8(1),
+            Level::Infix { .. } => state.write_u8(2)
+        }
+    }
+
+}
 
 /// A precedence relation.  This is essentially the symbol and
 /// right-hand side of a Wirth-Weber precedence relationship.
@@ -207,8 +222,16 @@ impl<'a, N: Display> Debug for Prec<'a, N> {
     }
 }
 
+impl<'a, N: Hash> Hash for Prec<'a, N> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.ord.hash(state);
+        self.level.hash(state)
+    }
+
+}
+
 /// Kinds of elements in the truth environment.
-#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum TruthKind {
     /// Theorem, proven within the current truth environment.
     Theorem,
@@ -238,7 +261,7 @@ impl Debug for TruthKind {
     }
 }
 
-#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum ScopeKind {
     Interface,
     Module,
@@ -247,7 +270,7 @@ pub enum ScopeKind {
     Instance
 }
 
-#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum ContextKind {
     /// Static definitions.  These are relative only to the global
     /// context (meaning they can only access statically-defined
@@ -284,7 +307,7 @@ impl Debug for ContextKind {
 
 /// Kinds of abstractions.  This allows the same abstraction
 /// representation to be used for multiple purposes.
-#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum AbstractionKind {
     /// A function abstraction.
     Lambda,
@@ -314,7 +337,7 @@ impl Debug for AbstractionKind {
     }
 }
 
-#[derive(Copy, Clone, Enum, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum Visibility {
     /// Completely hidden visibility.  This is used for
     /// compiler-generated definitions that should never be visible.
@@ -352,7 +375,7 @@ impl Debug for Visibility {
 }
 
 /// Literal values.
-#[derive(Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Clone, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum Literal<'a> {
     /// A numeric literal.  This is represented as an unbounded
     /// rational number.
