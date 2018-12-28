@@ -91,7 +91,7 @@ impl Debug for Fixity {
 }
 
 /// Precedence level specifier
-#[derive(Copy, Clone, Eq, Ord)]
+#[derive(Clone, Eq, Ord)]
 pub enum Level<'a, N> {
     /// Precedence of a specific symbol.
     Name {
@@ -162,7 +162,7 @@ impl<'a, N: Debug> Debug for Level<'a, N> {
 
 /// A precedence relation.  This is essentially the symbol and
 /// right-hand side of a Wirth-Weber precedence relationship.
-#[derive(Copy, Clone, Eq, Ord)]
+#[derive(Clone, Eq, Ord)]
 pub struct Prec<'a, N> {
     /// The kind of precedence relation.
     pub ord: Ordering,
@@ -352,7 +352,7 @@ impl Debug for Visibility {
 }
 
 /// Literal values.
-#[derive(Copy, Clone, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Clone, Eq, PartialEq, PartialOrd, Ord)]
 pub enum Literal<'a> {
     /// A numeric literal.  This is represented as an unbounded
     /// rational number.
