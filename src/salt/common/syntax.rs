@@ -26,6 +26,19 @@ impl<'a> Fieldname<'a> {
     }
 }
 
+impl<'a> Display for Fieldname<'a> {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "field {}", self.0)
+    }
+}
+
+impl<'a> Debug for Fieldname<'a> {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "field {:?}", self.0)
+    }
+}
+
+
 /// Associativity.  This is used in syntax directives.
 #[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum Assoc {
@@ -227,7 +240,6 @@ impl<'a, N: Hash> Hash for Prec<'a, N> {
         self.ord.hash(state);
         self.level.hash(state)
     }
-
 }
 
 /// Kinds of elements in the truth environment.
