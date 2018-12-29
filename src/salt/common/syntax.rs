@@ -282,6 +282,30 @@ pub enum ScopeKind {
     Instance
 }
 
+impl Display for ScopeKind {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        match self {
+            ScopeKind::Interface => write!(f, "interface"),
+            ScopeKind::Module => write!(f, "module"),
+            ScopeKind::Class => write!(f, "class"),
+            ScopeKind::Typeclass => write!(f, "typeclass"),
+            ScopeKind::Instance => write!(f, "instance"),
+        }
+    }
+}
+
+impl Debug for ScopeKind {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        match self {
+            ScopeKind::Interface => write!(f, "interface"),
+            ScopeKind::Module => write!(f, "module"),
+            ScopeKind::Class => write!(f, "class"),
+            ScopeKind::Typeclass => write!(f, "typeclass"),
+            ScopeKind::Instance => write!(f, "instance"),
+        }
+    }
+}
+
 #[derive(Copy, Clone, Enum, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum ContextKind {
     /// Static definitions.  These are relative only to the global
