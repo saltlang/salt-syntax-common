@@ -225,12 +225,12 @@ impl<'a, N: Display> Display for Prec<'a, N> {
     }
 }
 
-impl<'a, N: Display> Debug for Prec<'a, N> {
+impl<'a, N: Debug> Debug for Prec<'a, N> {
     fn fmt(&self, f: &mut Formatter) -> Result {
         match self.ord {
-            Ordering::Less => write!(f, "<< {}", self.level),
-            Ordering::Equal => write!(f, "== {}", self.level),
-            Ordering::Greater => write!(f, ">> {}", self.level),
+            Ordering::Less => write!(f, "<< {:?}", self.level),
+            Ordering::Equal => write!(f, "== {:?}", self.level),
+            Ordering::Greater => write!(f, ">> {:?}", self.level),
         }
     }
 }
